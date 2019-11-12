@@ -20,7 +20,6 @@ const HomeTab = () => {
       <Content>
         <HomeTabHeader />
         <StoryHeader followings={followings} />
-
         {feeds.map(feed => (
           <CardComponent feed={feed} key={feed.post_id} />
         ))}

@@ -33,6 +33,7 @@ const ProfileDetailHeader = ({
       >
         <View style={{ flex: 1 }}>
           <Image
+            testID="profile-image"
             source={{
               uri: `https://steemitimages.com/u/${profile.name}/avatar`
             }}

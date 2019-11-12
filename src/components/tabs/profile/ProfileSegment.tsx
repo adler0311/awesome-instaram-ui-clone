@@ -26,6 +26,7 @@ const ProfileSegment = ({ buttonIndex, setButtonIndex }) => (
       transparent
       onPress={() => setButtonIndex(1)}
       active={buttonIndex === 1}
+      testID="list-segment"
     >
       <Icon
         name="ios-list"

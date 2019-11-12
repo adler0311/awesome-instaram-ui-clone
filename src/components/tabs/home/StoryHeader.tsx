@@ -28,6 +28,7 @@ const StoryHeader = ({ followings }: PropStoryHeader) => {
         >
           {followings.map((following, index) => (
             <Thumbnail
+              testID="following-thumbnail"
               key={index}
               source={{
                 uri: `https://steemitimages.com/u/${following}/avatar`

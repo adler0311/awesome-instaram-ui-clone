@@ -24,8 +24,6 @@ let images = [
 ];
 
 const ProfileSection = ({ buttonIndex, contents }) => {
-  useEffect(() => {}, []);
-
   const renderSecondSection = () => {
     return contents.map(content => (
       <CardComponent key={content.post_id} feed={content} />
@@ -53,13 +51,6 @@ const ProfileSection = ({ buttonIndex, contents }) => {
         return null;
       case 3:
         return null;
-
-      default:
-        return (
-          <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
-            {renderFirstSection()}
-          </View>
-        );
     }
   };
 

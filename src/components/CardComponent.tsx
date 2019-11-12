@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import {
   Card,
@@ -29,12 +29,23 @@ type PropCardComponent = {
 
 const CardComponent = ({ feed }: PropCardComponent) => {
   const { image } = JSON.parse(feed.json_metadata);
+  const [bookmarkToggle, setBookmarkToggle] = useState(false);
+  const [likeToggle, setLikeToggle] = useState(false);
+
+  const onToggleBookmark = useCallback(() => {
+    setBookmarkToggle(!bookmarkToggle);
+  }, [bookmarkToggle, setBookmarkToggle]);
+
+  const onToggleLike = useCallback(() => {
+    setLikeToggle(!likeToggle);
+  }, [likeToggle, setLikeToggle]);
 
   return (
     <Card>
       <CardItem>
         <Left>
           <Thumbnail
+            testID="card-thumbnail"
             source={{
               uri: `https://steemitimages.com/u/${feed.author}/avatar`
             }}
@@ -59,18 +70,31 @@ const CardComponent = ({ feed }: PropCardComponent) => {
       <CardItem style={styles.iconContainer}>
         {/* 여기엔 아이콘들 */}
         <Left>
-          <Button transparent>
-            <Icon name="ios-heart" style={styles.icon} />
-            <Text>{feed.active_votes.length}</Text>
+          <Button transparent onPress={onToggleLike}>
+            <Icon
+              name={likeToggle ? "ios-heart" : "ios-heart-empty"}
+              style={styles.icon}
+            />
           </Button>
           <Button transparent>
             <Icon name="ios-chatbubbles" style={styles.icon} />
-            <Text>{feed.children}</Text>
           </Button>
           <Button transparent>
             <Icon name="ios-send" style={styles.icon} />
           </Button>
         </Left>
+        <Right>
+          <Button transparent onPress={onToggleBookmark}>
+            <Icon
+              type="MaterialIcons"
+              name={bookmarkToggle ? "bookmark" : "bookmark-border"}
+              style={styles.icon}
+            />
+          </Button>
+        </Right>
+      </CardItem>
+      <CardItem style={{ marginVertical: -10 }}>
+        <Text>좋아요 {feed.active_votes.length}개</Text>
       </CardItem>
       {/* 여기엔 제목이랑 내용 */}
       <CardItem>
