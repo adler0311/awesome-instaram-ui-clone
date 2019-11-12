@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Icon, Container, Content, Button } from "native-base";
 import ProfileTabHeader from "./ProfileTabHeader";
-import { fetchAccount, fetchFollowCount } from "../../../fetch";
+import { fetchAccount, fetchFollowCount, fetchState } from "../../../fetch";
 import ProfileDetailHeader from "./ProfileDetailHeader";
 import ProfileSegment from "./ProfileSegment";
 import ProfileSection from "./ProfileSection";
@@ -12,8 +12,6 @@ type AccountResponse = {
   name: string;
   post_count: number;
 };
-
-const username = "anpigon";
 
 const ProfileTab = () => {
   const [profile, setProfile] = useState({
@@ -25,8 +23,11 @@ const ProfileTab = () => {
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [buttonIndex, setButtonIndex] = useState(0);
+  const [contents, setContents] = useState([]);
 
   useEffect(() => {
+    const username = "anpigon";
+
     fetchAccount(username).then(
       ({
         name,
@@ -44,12 +45,16 @@ const ProfileTab = () => {
         setFollowings(followings);
       }
     );
+
+    fetchState(username)
+      .then(({ content }) => Object.values(content))
+      .then(contents => setContents(contents));
   }, []);
 
   return (
     <Container style={styles.container}>
-      <ProfileTabHeader />
       <Content>
+        <ProfileTabHeader />
         <ProfileDetailHeader
           profile={profile}
           followings={followings}
@@ -59,7 +64,7 @@ const ProfileTab = () => {
           buttonIndex={buttonIndex}
           setButtonIndex={setButtonIndex}
         />
-        <ProfileSection buttonIndex={buttonIndex} username={username} />
+        <ProfileSection buttonIndex={buttonIndex} contents={contents} />
       </Content>
     </Container>
   );

@@ -23,14 +23,8 @@ let images = [
   "https://cdn.pixabay.com/photo/2018/11/29/19/29/autumn-3846345__480.jpg"
 ];
 
-const ProfileSection = ({ buttonIndex, username }) => {
-  const [contents, setContents] = useState([]);
-
-  useEffect(() => {
-    fetchState(username)
-      .then(({ content }) => Object.values(content))
-      .then(contents => setContents(contents));
-  }, []);
+const ProfileSection = ({ buttonIndex, contents }) => {
+  useEffect(() => {}, []);
 
   const renderSecondSection = () => {
     return contents.map(content => (
