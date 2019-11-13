@@ -27,14 +27,11 @@ type PropCardComponent = {
   shoppingItem: ShoppingItem;
 };
 
-const CardComponent = ({ shoppingItem }: PropCardComponent) => {
-  // const { image } = JSON.parse(feed.json_metadata);
+const CardComponent = ({ shoppingItem, navigation }: PropCardComponent) => {
   const [bookmarkToggle, setBookmarkToggle] = useState(false);
   const [likeToggle, setLikeToggle] = useState(false);
 
-  const removeTag = (text: string): string => {
-    return text.replace("<b>", "").replace("</b>", "");
-  };
+  const title = shoppingItem.title.replace("<b>", "").replace("</b>", "");
 
   const onToggleBookmark = useCallback(() => {
     setBookmarkToggle(!bookmarkToggle);
@@ -43,6 +40,13 @@ const CardComponent = ({ shoppingItem }: PropCardComponent) => {
   const onToggleLike = useCallback(() => {
     setLikeToggle(!likeToggle);
   }, [likeToggle, setLikeToggle]);
+
+  const handlePress = () => {
+    navigation.push("ShoppingCardDetail", {
+      link: shoppingItem.link,
+      title
+    });
+  };
 
   return (
     <Card>
@@ -104,14 +108,12 @@ const CardComponent = ({ shoppingItem }: PropCardComponent) => {
       </CardItem>
       {/* 여기엔 제목이랑 내용 */}
       <CardItem>
-        <Text style={{ fontSize: 16 }}>{removeTag(shoppingItem.title)}</Text>
+        <Text style={{ fontSize: 16 }}>{title}</Text>
       </CardItem>
-      <CardItem
-        onPress={() => {
-          console.log("pressed");
-        }}
-      >
-        <Text>보러가기</Text>
+      <CardItem>
+        <Right style={{ flex: 1 }}>
+          <Text onPress={handlePress}>보러가기</Text>
+        </Right>
       </CardItem>
     </Card>
   );

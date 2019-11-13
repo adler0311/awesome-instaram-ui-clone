@@ -22,7 +22,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 const display = 5;
 
-const HomeTab = () => {
+const HomeTab = ({ screenProps }) => {
   const [shoppingItems, setShoppingItems] = useState([]);
   const [followings, setFollowings] = useState([]);
   const [page, setPage] = useState(1);
@@ -78,7 +78,9 @@ const HomeTab = () => {
     </View>
   );
 
-  const renderItem = ({ item }) => <CardComponent shoppingItem={item} />;
+  const renderItem = ({ item }) => (
+    <CardComponent shoppingItem={item} navigation={screenProps.navigation} />
+  );
 
   return (
     <Container style={styles.container}>
@@ -110,6 +112,8 @@ HomeTab.navigationOptions = {
 };
 
 export default HomeTab;
+
+// export default HomeTab;
 const styles = StyleSheet.create({
   container: {
     flex: 1

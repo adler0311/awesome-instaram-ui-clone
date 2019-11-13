@@ -13,7 +13,22 @@ const stackNavigator = createStackNavigator({
       header: null
     })
   },
-  ShoppingCardDetail
+  ShoppingCardDetail: {
+    screen: ShoppingCardDetail,
+    navigationOptions: ({
+      navigation: {
+        state: {
+          params: { title }
+        }
+      }
+    }) => ({
+      headerTitle: (
+        <View>
+          <Text>{title.substring(0, 25)}...</Text>
+        </View>
+      )
+    })
+  }
 });
 
 export default createAppContainer(stackNavigator);

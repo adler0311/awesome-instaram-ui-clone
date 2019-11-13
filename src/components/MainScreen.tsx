@@ -36,8 +36,8 @@ const AppContainer = createAppContainer(
   )
 );
 
-const MainScreen = () => {
-  return <AppContainer />;
+const MainScreen = ({ navigation }) => {
+  return <AppContainer screenProps={{ navigation }} />;
 };
 
 export default MainScreen;

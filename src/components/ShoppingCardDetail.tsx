@@ -1,8 +1,14 @@
 import React from "react";
 import { WebView } from "react-native";
 
-const ShoppingCardDetail = () => (
-  <WebView source={{ html: "<h1>Hello World!</h1>" }}></WebView>
-);
+const ShoppingCardDetail = ({
+  navigation: {
+    state: {
+      params: { link: uri }
+    }
+  }
+}) => {
+  return <WebView source={{ uri }}></WebView>;
+};
 
 export default ShoppingCardDetail;
