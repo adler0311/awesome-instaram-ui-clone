@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, WebView } from "react-native";
+import HTML from "react-native-render-html";
 import {
   Card,
   CardItem,
@@ -11,26 +12,29 @@ import {
   Button
 } from "native-base";
 
-type Feed = {
-  author: string;
-  body: string;
-  created: string;
-  json_metadata: string;
-  root_title: string;
-  post_id: number;
-  active_votes: [];
-  children: number;
-  pending_payout_value: string;
+type ShoppingItem = {
+  hprice: string;
+  image: string;
+  link: string;
+  lprice: string;
+  mallName: string;
+  productId: string;
+  prouctType: string;
+  title: string;
 };
 
 type PropCardComponent = {
-  feed: Feed;
+  shoppingItem: ShoppingItem;
 };
 
-const CardComponent = ({ feed }: PropCardComponent) => {
-  const { image } = JSON.parse(feed.json_metadata);
+const CardComponent = ({ shoppingItem }: PropCardComponent) => {
+  // const { image } = JSON.parse(feed.json_metadata);
   const [bookmarkToggle, setBookmarkToggle] = useState(false);
   const [likeToggle, setLikeToggle] = useState(false);
+
+  const removeTag = (text: string): string => {
+    return text.replace("<b>", "").replace("</b>", "");
+  };
 
   const onToggleBookmark = useCallback(() => {
     setBookmarkToggle(!bookmarkToggle);
@@ -47,23 +51,25 @@ const CardComponent = ({ feed }: PropCardComponent) => {
           <Thumbnail
             testID="card-thumbnail"
             source={{
-              uri: `https://steemitimages.com/u/${feed.author}/avatar`
+              uri: shoppingItem.image
             }}
           />
         </Left>
         <Body style={{ flex: 3 }}>
-          <Text>{feed.author}</Text>
-          <Text>{new Date(feed.created).toDateString()}</Text>
+          <Text>{shoppingItem.mallName}</Text>
+          <Text>
+            {shoppingItem.lprice}원 ~ {shoppingItem.hprice}원
+          </Text>
         </Body>
       </CardItem>
-      {image && image.length ? (
+      {shoppingItem.image && shoppingItem.image.length ? (
         <CardItem cardBody>
           {/* 여기엔 썸네일 */}
           <Image
             source={{
-              uri: image[0]
+              uri: shoppingItem.image
             }}
-            style={{ height: 200, width: null, flex: 1 }}
+            style={{ height: 300, width: null, flex: 1 }}
           />
         </CardItem>
       ) : null}
@@ -94,19 +100,18 @@ const CardComponent = ({ feed }: PropCardComponent) => {
         </Right>
       </CardItem>
       <CardItem style={{ marginVertical: -10 }}>
-        <Text>좋아요 {feed.active_votes.length}개</Text>
+        {/* <Text>좋아요 {feed.active_votes.length}개</Text> */}
       </CardItem>
       {/* 여기엔 제목이랑 내용 */}
       <CardItem>
-        <Text style={{ fontWeight: "bold" }}>{feed.root_title}</Text>
+        <Text style={{ fontSize: 16 }}>{removeTag(shoppingItem.title)}</Text>
       </CardItem>
-      <CardItem>
-        <Text>{feed.body.slice(0, 100)}...</Text>
-      </CardItem>
-      <CardItem>
-        <Right style={{ flex: 1 }}>
-          <Text>{feed.pending_payout_value}</Text>
-        </Right>
+      <CardItem
+        onPress={() => {
+          console.log("pressed");
+        }}
+      >
+        <Text>보러가기</Text>
       </CardItem>
     </Card>
   );
@@ -114,8 +119,7 @@ const CardComponent = ({ feed }: PropCardComponent) => {
 
 const styles = StyleSheet.create({
   iconContainer: { height: 40 },
-  icon: { color: "black", marginRight: 5 },
-  contentContainer: {}
+  icon: { color: "black", marginRight: 5 }
 });
 
 export default CardComponent;

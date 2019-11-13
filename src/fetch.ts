@@ -1,5 +1,29 @@
 import axios from "axios";
 
+type ShoppingResultData = {
+  display: 10;
+  items: [];
+  lastBuildDate: string;
+  start: number;
+  total: number;
+};
+
+export const fetchShoppingSearchResult = async (
+  start: number,
+  display: number
+): Promise<ShoppingResultData> => {
+  const query = "모자";
+
+  const response = await axios({
+    url: `https://openapi.naver.com/v1/search/shop.json?query=${query}&display=${display}&start=${start}`,
+    headers: {
+      "X-Naver-Client-id": "a0_ZvjNiPd1DMUjZIjuQ",
+      "X-Naver-Client-secret": "6iPBOFGXAG"
+    }
+  });
+  return response.data;
+};
+
 type Data = {
   id: number;
   jsonrpc: string;
@@ -17,7 +41,7 @@ const call = (data: Data) => {
   });
 };
 
-export const fetchFeeds = (perPage: number = 3) => {
+export const fetchFeeds = (perPage: number = 10) => {
   const data = {
     id: 1,
     jsonrpc: "2.0",
