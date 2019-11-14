@@ -24,4 +24,4 @@
 
 ## 프로젝트 사진
 
-![projectImage](./assets/preview_1.jpg)
+![projectImage](./assets/preview_1.gif)
