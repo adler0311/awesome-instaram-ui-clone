@@ -18,7 +18,7 @@
 ## 시작하기
 
 1. npm install
-2. 프로젝트 루트에 .env 파일 생성. [네이버 오픈 api](https://developers.naver.com/apps/#/register) 프로젝트 생성 후 NAVER_CLIENT_ID, NAVER_CLIENT_SECRET 정보 저장. pixabay 계정 생성 후 PIXABAY_KEY에 key 저장
+2. 프로젝트 루트에 .env 파일 생성. [네이버 오픈 api](https://developers.naver.com/apps/#/register) 프로젝트 생성 후 NAVER_CLIENT_ID, NAVER_CLIENT_SECRET 정보 저장. [pixabay](https://pixabay.com/service/about/api/) 계정 생성 후 PIXABAY_KEY에 key 저장
 
 `ex. NAVER_CLIENT_ID=YK34Hnhr NAVER_CLIENT_SECRET=BKK3gkerg4 PIXABAY_KEY=2348932-g4383kyhh`
 
