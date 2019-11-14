@@ -44,16 +44,12 @@ const HomeTab = ({ screenProps }) => {
   };
 
   const handleRefresh = () => {
-    console.log("refreshing");
-
     setPage(1);
     setRefreshing(true);
   };
 
   const handleLoadMore = () => {
     if (!onEndReachedCalledDuringMomentum.current) {
-      console.log("load more");
-
       getShoppingData();
       onEndReachedCalledDuringMomentum.current = true;
     }

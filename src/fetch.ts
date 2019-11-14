@@ -1,4 +1,9 @@
 import axios from "axios";
+import {
+  NAVER_CLIENT_ID,
+  NAVER_CLIENT_SECRET,
+  PIXABAY_KEY
+} from "react-native-dotenv";
 
 type ShoppingResultData = {
   display: 10;
@@ -17,8 +22,8 @@ export const fetchShoppingSearchResult = async (
   const response = await axios({
     url: `https://openapi.naver.com/v1/search/shop.json?query=${query}&display=${display}&start=${start}`,
     headers: {
-      "X-Naver-Client-id": "a0_ZvjNiPd1DMUjZIjuQ",
-      "X-Naver-Client-secret": "6iPBOFGXAG"
+      "X-Naver-Client-id": NAVER_CLIENT_ID,
+      "X-Naver-Client-secret": NAVER_CLIENT_SECRET
     }
   });
   return response.data;
@@ -101,9 +106,8 @@ export const fetchPixabayImages = async (
   page: number = 1,
   perPage: number = 20
 ) => {
-  const key = "14229089-5525caf25ee9781d35cb2bf8b";
   const response = await axios(
-    `https://pixabay.com/api/?key=${key}&page=${page}&per_page=${perPage}&editors_choice=true`
+    `https://pixabay.com/api/?key=${PIXABAY_KEY}&page=${page}&per_page=${perPage}&editors_choice=true`
   );
   return response.data.hits;
 };

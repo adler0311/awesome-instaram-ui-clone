@@ -107,16 +107,12 @@ const ProfileTab = ({ screenProps: { navigation } }) => {
   );
 
   const handleRefresh = () => {
-    console.log("refreshing");
-
     setPage(1);
     setRefreshing(true);
   };
 
   const handleLoadMore = () => {
-    console.log(onEndReachedCalledDuringMomentum.current);
     if (!onEndReachedCalledDuringMomentum.current) {
-      console.log("load more");
       onEndReachedCalledDuringMomentum.current = true;
 
       getPixabayImages();
