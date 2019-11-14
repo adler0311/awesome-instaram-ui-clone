@@ -1,24 +1,12 @@
-import React, { useEffect, useState, useRef, Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity
-} from "react-native";
-import { Icon, Container, Content, Button } from "native-base";
+import React, { useEffect, useState, useRef } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import { Icon, Container } from "native-base";
+
 import CardComponent from "../../CardComponent";
-import {
-  fetchFeeds,
-  fetchFollowing,
-  fetchShoppingSearchResult
-} from "../../../fetch";
+import { fetchFollowing, fetchShoppingSearchResult } from "../../../fetch";
 import StoryHeader from "./StoryHeader";
 import HomeTabHeader from "./HomeTabHeader";
-import ShoppingCardDetail from "../../ShoppingCardDetail";
-
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import UpButton from "../../UpButton";
 
 const display = 5;
 
@@ -98,9 +86,7 @@ const HomeTab = ({ screenProps }) => {
         }}
         ref={flatListRef}
       />
-      <TouchableOpacity onPress={upButtonHandler} style={styles.upButton}>
-        <Icon name="ios-arrow-up" />
-      </TouchableOpacity>
+      <UpButton upButtonHandler={upButtonHandler} />
     </Container>
   );
 };
@@ -117,17 +103,5 @@ export default HomeTab;
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  upButton: {
-    position: "absolute",
-    width: 56,
-    height: 56,
-    alignItems: "center",
-    justifyContent: "center",
-    right: 20,
-    bottom: 20,
-    backgroundColor: "#eecd3b",
-    borderRadius: 30,
-    elevation: 8
   }
 });

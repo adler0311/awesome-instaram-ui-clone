@@ -1,5 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
+import { Text } from "native-base";
+import HTML from "react-native-render-html";
+import { Remarkable } from "remarkable";
+
+const md = new Remarkable({ html: true });
+
 import {
   Card,
   CardItem,
@@ -10,29 +16,26 @@ import {
   Icon,
   Button
 } from "native-base";
-import { NavigationStackProp } from "react-navigation-stack";
 
-type ShoppingItem = {
-  hprice: string;
-  image: string;
-  link: string;
-  lprice: string;
-  mallName: string;
-  productId: string;
-  prouctType: string;
+type Feed = {
+  json_metadata: string;
+  body: string;
+  author: string;
   title: string;
+  active_votes: [];
+  created: string;
 };
 
-type PropCardComponent = {
-  shoppingItem: ShoppingItem;
-  navigation: NavigationStackProp;
+type PropFeedCardComponent = {
+  feed: Feed;
+  navigation: any;
 };
 
-const CardComponent = ({ shoppingItem, navigation }: PropCardComponent) => {
+const FeedCardComponent = ({ feed, navigation }: PropFeedCardComponent) => {
+  const { image } = JSON.parse(feed.json_metadata);
+
   const [bookmarkToggle, setBookmarkToggle] = useState(false);
   const [likeToggle, setLikeToggle] = useState(false);
-
-  const title = shoppingItem.title.replace("<b>", "").replace("</b>", "");
 
   const onToggleBookmark = useCallback(() => {
     setBookmarkToggle(!bookmarkToggle);
@@ -43,12 +46,8 @@ const CardComponent = ({ shoppingItem, navigation }: PropCardComponent) => {
   }, [likeToggle, setLikeToggle]);
 
   const handlePress = () => {
-    navigation.push("ShoppingCardDetail", {
-      link: shoppingItem.link,
-      title
-    });
+    navigation.push("FeedDetail", { feed });
   };
-
   return (
     <Card>
       <CardItem>
@@ -56,25 +55,22 @@ const CardComponent = ({ shoppingItem, navigation }: PropCardComponent) => {
           <Thumbnail
             testID="card-thumbnail"
             source={{
-              uri: shoppingItem.image
+              uri: `https://steemitimages.com/u/${feed.author}/avatar`
             }}
           />
         </Left>
         <Body style={{ flex: 3 }}>
-          <Text>{shoppingItem.mallName}</Text>
-          <Text>
-            {shoppingItem.lprice}원 ~{" "}
-            {+shoppingItem.hprice > 0 ? `${shoppingItem.hprice}원` : ""}
-          </Text>
+          <Text>{feed.author}</Text>
+          <Text note>{new Date(feed.created).toDateString()}</Text>
         </Body>
       </CardItem>
-      {shoppingItem.image && shoppingItem.image.length ? (
+      {image && image.length ? (
         <CardItem cardBody>
           <Image
             source={{
-              uri: shoppingItem.image
+              uri: image[0]
             }}
-            style={{ height: 300, width: null, flex: 1 }}
+            style={{ height: 200, width: null, flex: 1 }}
           />
         </CardItem>
       ) : null}
@@ -103,14 +99,16 @@ const CardComponent = ({ shoppingItem, navigation }: PropCardComponent) => {
           </Button>
         </Right>
       </CardItem>
-      <CardItem style={{ marginVertical: -10 }}></CardItem>
-      <CardItem>
-        <Text style={{ fontSize: 16 }}>{title}</Text>
+      <CardItem style={{ marginVertical: -10 }}>
+        <Text>좋아요 {feed.active_votes.length}개</Text>
       </CardItem>
       <CardItem>
-        <Right style={{ flex: 1 }}>
-          <Text onPress={handlePress}>보러가기</Text>
-        </Right>
+        <Text onPress={handlePress} style={{ fontSize: 16 }}>
+          {feed.title}
+        </Text>
+      </CardItem>
+      <CardItem>
+        <HTML html={md.render(feed.body).slice(0, 100)} />
       </CardItem>
     </Card>
   );
@@ -121,4 +119,4 @@ const styles = StyleSheet.create({
   icon: { color: "black", marginRight: 5 }
 });
 
-export default CardComponent;
+export default FeedCardComponent;

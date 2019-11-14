@@ -96,3 +96,14 @@ export const fetchState = (username: string) => {
     return res.result;
   });
 };
+
+export const fetchPixabayImages = async (
+  page: number = 1,
+  perPage: number = 20
+) => {
+  const key = "14229089-5525caf25ee9781d35cb2bf8b";
+  const response = await axios(
+    `https://pixabay.com/api/?key=${key}&page=${page}&per_page=${perPage}&editors_choice=true`
+  );
+  return response.data.hits;
+};
